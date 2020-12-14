@@ -8,6 +8,8 @@ public class ScoreBoard  {
 
     private static int noOfOver;
 
+    private static int previousTeamScore = Integer.MAX_VALUE;
+
     private static Scanner s = new Scanner(System.in);
 
     public static void generateScoreBoard(Team team, int over) {
@@ -65,10 +67,10 @@ public class ScoreBoard  {
         for(int j = 0; j < noOfOver; j++) {
             Over over = new Over();
             Ball ballArray[] = new Ball[6];
+            System.out.println("Enter Balls");
             for (int i = 0; i < 6; i++) {
-                if (noOfWicket == noOfPlayer - 1)
+                if (noOfWicket == noOfPlayer - 1 || totalScore > previousTeamScore)
                     break;
-                System.out.println("Enter Ball");
                 String b = s.next();
                 int runScored = 0;
                 currentPlayer = playingTeam.getCurrentPlayingPlayer1();
@@ -150,6 +152,7 @@ public class ScoreBoard  {
             playingTeam.setCurrentPlayingPlayer1(q.remove());
             playingTeam.setCurrentPlayingPlayer2(q.remove());
             startGame(playingTeam);
+            previousTeamScore = playingTeam.getTotalRun();
         }
         int scoreDiff = Math.abs(match.getTeam()[0].getTotalRun() - match.getTeam()[1].getTotalRun());
         if(match.getTeam()[0].getTotalRun() > match.getTeam()[1].getTotalRun()) {
@@ -157,7 +160,7 @@ public class ScoreBoard  {
         }
         else
             match.setWinningTeam(match.getTeam()[1]);
-        System.out.println("Team " + match.getWinningTeam().getTeamId()+ " win the match by "+ scoreDiff);
+        System.out.println("Team " + (match.getWinningTeam().getTeamId()+1)+ " win the match by "+ scoreDiff);
 
     }
 
